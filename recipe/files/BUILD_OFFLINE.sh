@@ -15,20 +15,57 @@
 #                                     the build and signs that provenance with a key the build steps cannot reach
 #                                     (see REBUILD.md). Any SLSA build level is your platform's; this archive claims
 #                                     none. The image digest is the same either way.
+#   ./BUILD_OFFLINE.sh --restore-modes   only put back file modes your unpacking changed (see below), then exit
+#
+# File modes are build input: COPY carries them into the image. `tar -xzf` without -p, as a non-root user, applies
+# your umask to every file (664 becomes 644 under umask 022). FILE_MODES.tsv records every file's and directory's
+# mode as packed, and every run of this script first puts back any that differ.
 # =============================================================================
 set -euo pipefail
 PROVENANCE=0
+MODES_ONLY=0
 for arg in "$@"; do
   case "$arg" in
     --provenance) PROVENANCE=1 ;;
-    -h|--help) sed -n '2,20p' "$0"; exit 0 ;;
-    *) echo "ERROR: unknown option $arg (use --provenance or nothing)" >&2; exit 2 ;;
+    --restore-modes) MODES_ONLY=1 ;;
+    -h|--help) sed -n '2,/^# ====/{/^# ====/!p}' "$0"; exit 0 ;;
+    *) echo "ERROR: unknown option $arg (use --provenance, --restore-modes or nothing)" >&2; exit 2 ;;
   esac
 done
 cd "$(dirname "$(readlink -f "$0")")"
 KIT="$PWD"
 
 fail(){ echo "ERROR: $*" >&2; exit 1; }
+
+# --- 0. file modes as packed (FILE_MODES.tsv) ---------------------------------
+# One line per file or directory: `<octal mode><TAB><path>` (no path in it holds a tab or a newline). Only modes that
+# differ are changed, grouped by mode, so a tree unpacked with -p costs one listing. GNU find prints modes itself; BSD
+# find (macOS) has no -printf, so stat does.
+restore_modes(){
+  [ -f FILE_MODES.tsv ] || return 0
+  local now diff n m
+  if find . -maxdepth 0 -printf '' >/dev/null 2>&1; then
+    now=$(find . -mindepth 1 \( -type f -o -type d \) -printf '%m\t%P\n')
+  else
+    now=$(find . -mindepth 1 \( -type f -o -type d \) -exec stat -f '%Lp%t%N' {} + | sed 's|	\./|	|')
+  fi
+  diff=$(printf '%s\n' "$now" | awk -F'\t' '
+    NR == FNR { if ($1 ~ /^[0-7]+$/ && index($0, "\t")) want[substr($0, index($0, "\t") + 1)] = $1; next }
+    { p = substr($0, index($0, "\t") + 1); if ((p in want) && want[p] != $1) print want[p] "\t" p }' FILE_MODES.tsv -)
+  [ -n "$diff" ] || return 0
+  n=$(printf '%s\n' "$diff" | awk 'END { print NR }')
+  echo "==> putting back the packed mode of $n file(s) and directories (this archive was unpacked without tar -p)"
+  for m in $(printf '%s\n' "$diff" | cut -f1 | sort -u); do
+    printf '%s\n' "$diff" | awk -F'\t' -v m="$m" '$1 == m { print substr($0, index($0, "\t") + 1) }' | tr '\n' '\0' \
+      | xargs -0 chmod "$m" -- \
+      || fail "could not restore file modes from FILE_MODES.tsv; unpack the archive again with: tar -xpzf <archive>"
+  done
+}
+restore_modes
+if [ "$MODES_ONLY" = 1 ]; then
+  echo "==> file modes match FILE_MODES.tsv"
+  exit 0
+fi
 
 # --- host guards ------------------------------------------------------------
 command -v docker >/dev/null || fail "docker not found"

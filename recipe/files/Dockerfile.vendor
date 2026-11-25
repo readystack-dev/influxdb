@@ -4,18 +4,18 @@
 FROM rust:1.98.1-bookworm@sha256:93ce27a88655056a51dbdd8f5f2d7ddc071c7b0070fb288a37b5a285fc83971e AS cargovendor
 RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates curl pkg-config && rm -rf /var/lib/apt/lists/*
 WORKDIR /src
-RUN git clone --depth 1 --branch v3.12.2 -q https://github.com/influxdata/influxdb . && test "$(git rev-parse HEAD)" = cc9769917ab399ed5b48567a92b5d34ed4d918ea
+RUN git clone --depth 1 --branch v3.12.3 -q https://github.com/influxdata/influxdb . && test "$(git rev-parse HEAD)" = 51f4ac865b8670e0d3555ae992639ec05ecc334e
 RUN B=core/iox_query_udf/build.rs && D=target/cfg_independent_downloads/iox_query_udf && grep -q 'join("cfg_independent_downloads")' $B && grep -q 'join("iox_query_udf")' $B && C=$(sed -n 's/^const COMMIT: &str = "\([0-9a-f]\{40\}\)";$/\1/p' $B) && T=$(sed -n 's/^const BUILD_TIMESTAMP: &str = "\(.*\)";$/\1/p' $B | sed 's/+00:00$//; s/:/-/g') && S=$(sed -n 's/^ *"sha256:\([0-9a-f]\{64\}\)";$/\1/p' $B) && test -n "$C" && test -n "$T" && test -n "$S" && U="https://github.com/influxdata/datafusion-udf-wasm/releases/download/wasm-binaries%2F$T%2F$C" && F=datafusion_udf_wasm_python.release.x86_64-unknown-linux-gnu.elf && mkdir -p $D && curl -fsSL --retry 5 -o $D/sha256sum.txt "$U/sha256sum.txt" && echo "$S  $D/sha256sum.txt" | sha256sum -c - && curl -fsSL --retry 5 -o "$D/$F" "$U/$F" && (cd $D && grep "  $F\$" sha256sum.txt | sha256sum -c -)
 RUN mkdir -p .cargo && cargo vendor --locked vendor > .cargo/config.toml && rm -rf .git
 RUN H=vendor/datafusion-udf-wasm-host/src/bindings.rs && grep -q 'path: "../wit/world.wit"' $H && R=$(sed -n 's|^source = "git+https://github.com/influxdata/datafusion-udf-wasm.git?rev=[0-9a-f]*#\([0-9a-f]\{40\}\)"$|\1|p' Cargo.lock | sort -u) && test "$(echo $R | wc -w)" = 1 && W=$(echo ${CARGO_HOME:-/usr/local/cargo}/git/checkouts/datafusion-udf-wasm-*/$(echo $R | cut -c1-7)) && test "$(git -C "$W" rev-parse HEAD)" = "$R" && test -f "$W/wit/world.wit" && test ! -e vendor/wit && cp -R "$W/wit" vendor/wit && echo "post_vendor: vendor/wit from datafusion-udf-wasm@$R" && ls -l vendor/wit
-FROM ubuntu:24.04@sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852 AS debvendor
+FROM ubuntu:24.04@sha256:9c7f200c07e3d4a03e7249d2c16bf66a51120fb876aa2242cf31451412543289 AS debvendor
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get -y --download-only --no-install-recommends dist-upgrade && \
     apt-get -y --download-only --no-install-recommends install \
       ca-certificates libpython3.12t64 tzdata && \
     mkdir -p /debs && (cp /var/cache/apt/archives/*.deb /debs/ 2>/dev/null || true) && echo "vendored $(ls -1 /debs/*.deb 2>/dev/null | wc -l) debs"
-FROM ubuntu:24.04@sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852 AS builddebvendor
+FROM ubuntu:24.04@sha256:9c7f200c07e3d4a03e7249d2c16bf66a51120fb876aa2242cf31451412543289 AS builddebvendor
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get -y --download-only --no-install-recommends install \

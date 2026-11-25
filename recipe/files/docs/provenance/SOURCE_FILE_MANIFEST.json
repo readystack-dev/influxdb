@@ -1,7 +1,7 @@
 {
   "schema": "kitforge.source_file_manifest.v1",
   "slug": "influxdb",
-  "file_count": 1855,
+  "file_count": 1857,
   "files": [
     ".cargo/config.toml",
     ".circleci/config.yml",
@@ -1253,6 +1253,7 @@
     "influxdb3/tests/cli/snapshots/lib__cli__test_create_table_fail_existing.snap",
     "influxdb3/tests/cli/system_tables.rs",
     "influxdb3/tests/cli/tls_no_verify.rs",
+    "influxdb3/tests/cli/update_trigger_gh.rs",
     "influxdb3/tests/lib.rs",
     "influxdb3/tests/server/async_concurrency.rs",
     "influxdb3/tests/server/auth.rs",
@@ -1270,6 +1271,7 @@
     "influxdb3/tests/server/plugin_restriction.rs",
     "influxdb3/tests/server/query.rs",
     "influxdb3/tests/server/schema_enforcement.rs",
+    "influxdb3/tests/server/shutdown.rs",
     "influxdb3/tests/server/snapshots/lib__server__cli__distinct_cache_create_and_delete-2.snap",
     "influxdb3/tests/server/snapshots/lib__server__cli__distinct_cache_create_and_delete.snap",
     "influxdb3/tests/server/snapshots/lib__server__cli__fail_without_database_name.snap",

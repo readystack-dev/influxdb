@@ -1,11 +1,11 @@
 {
   "schema": "kitforge.build_recipe.v1",
   "slug": "influxdb",
-  "image": "readystack/influxdb:v3.12.2-CE-ubuntu24.04-r1",
+  "image": "readystack/influxdb:v3.12.3-CE-ubuntu24.04-r1",
   "build_method": "source-rebuild-rust",
   "source": {
     "repo": "https://github.com/influxdata/influxdb",
-    "ref": "v3.12.2",
+    "ref": "v3.12.3",
     "builder_image": "ubuntu:24.04",
     "rust_toolchain_image": "rust:1.98.1-bookworm",
     "_builder_note": "Since 2026-10-10 the build stage is ubuntu:24.04 (the runtime's own distro) with the build_packages below, and the Rust 1.98.1 toolchain copied from the pinned rust:1.98.1-bookworm image (rustup's portable x86_64-unknown-linux-gnu dist; no official rust image is built on Ubuntu). cargo vendor, source_prep and post_vendor_cmds still run in the rust image online (CARGO_HOME=/usr/local/cargo there, as post_vendor_cmds expects). Native crates at v3.12.0 (Cargo.lock): ring, psm, croaring-sys, zstd-sys and tikv-jemalloc-sys compile bundled C with cc/make; liblzma-sys links a system liblzma only at >= 5.8.0 (noble has 5.6.1, bookworm had 5.4.1), so it builds its bundled xz in both; bzip2 is libbz2-rs-sys (Rust); flate2 has no libz-sys; libsqlite3-sys is bundled (the bookworm runtime carried no libsqlite3 and booted). rust:bookworm baked gcc/g++/make; on ubuntu:24.04 they come from build-essential.",
@@ -29,9 +29,11 @@
       "H=vendor/datafusion-udf-wasm-host/src/bindings.rs && grep -q 'path: \"../wit/world.wit\"' $H && R=$(sed -n 's|^source = \"git+https://github.com/influxdata/datafusion-udf-wasm.git?rev=[0-9a-f]*#\\([0-9a-f]\\{40\\}\\)\"$|\\1|p' Cargo.lock | sort -u) && test \"$(echo $R | wc -w)\" = 1 && W=$(echo ${CARGO_HOME:-/usr/local/cargo}/git/checkouts/datafusion-udf-wasm-*/$(echo $R | cut -c1-7)) && test \"$(git -C \"$W\" rev-parse HEAD)\" = \"$R\" && test -f \"$W/wit/world.wit\" && test ! -e vendor/wit && cp -R \"$W/wit\" vendor/wit && echo \"post_vendor: vendor/wit from datafusion-udf-wasm@$R\" && ls -l vendor/wit"
     ],
     "_post_vendor_note": "Chain 488's scratch build failed (exit 101, 507 s in) compiling datafusion-udf-wasm-host: `failed to read path for WIT [/src/vendor/datafusion-udf-wasm-host/../wit/world.wit] No such file or directory` (+ 11 follow-on errors). That crate is a GIT dependency (Cargo.toml:269, influxdata/datafusion-udf-wasm rev 9186474d) whose src/bindings.rs:4-8 runs wasmtime's `bindgen!({ path: \"../wit/world.wit\" })` - a file at that repo's WORKSPACE ROOT, outside the crate. Upstream builds from cargo's full git checkout, where ../wit exists; `cargo vendor` copies only the crate's package directory, so vendored it resolves to vendor/wit/world.wit, which nothing creates. This command runs in the online vendor stage right after `cargo vendor` (render_l009_rust_kit, source.post_vendor_cmds) and copies wit/ from the checkout cargo vendor itself just made - the same tree the vendored host crate came from - after checking that bindings.rs still reads ../wit/world.wit, that Cargo.lock pins exactly one datafusion-udf-wasm rev, and that the checkout's HEAD is that rev (it reads the rev from Cargo.lock, so a retarget follows upstream's pin). Cargo's directory source ignores vendor/ subdirectories without a Cargo.toml, so vendor/wit is inert to cargo; no vendored file or .cargo-checksum.json changes. wit/ at 9186474d is the single self-contained world.wit (package datafusion-udf-wasm:udf@0.5.0, no foreign `use`; sha256 b0da509c...). Swept the other git dependencies the same way: the 33 DataFusion-fork crates (influxdata/arrow-datafusion 676dd338) and the other two udf-wasm crates have no include_str!/include_bytes!/include!/bindgen path outside their package; datafusion-proto(-common) exclude *.proto but compile only checked-in generated .rs. MEASURED 2026-10-04 on the agent VM (not a prep host): built the rendered Dockerfile.vendor cargovendor stage (legacy builder) - every guard passed and it logged 'post_vendor: vendor/wit from datafusion-udf-wasm@9186474d...'; then, in that image with --network=none, `cargo check --offline --locked -p iox_query_udf` (covers datafusion-udf-wasm-host) finished in 4m32s, exit 0. Control, same image with vendor/wit removed: `cargo check -p datafusion-udf-wasm-host` exits 101 with chain 488's exact error. The full release build (fat LTO, link) was not run here.",
-    "commit": "cc9769917ab399ed5b48567a92b5d34ed4d918ea",
-    "source_date_epoch": 1793301155,
-    "source_date_epoch_provenance": "committer date of cc9769917ab399ed5b48567a92b5d34ed4d918ea, the commit tag v3.12.2 points to (2026-10-29T19:12:35Z). Resolved via the public GitHub API by scripts/retarget.py; annotated tags are dereferenced to their commit, never the tagger date."
+    "commit": "51f4ac865b8670e0d3555ae992639ec05ecc334e",
+    "source_date_epoch": 1795446682,
+    "source_date_epoch_provenance": "the time release v3.12.3-CE-ubuntu24.04-r1 was cut (2026-11-23T15:11:22Z), by scripts/retarget.py: ReadyStack dates an image by when its release was packaged (owner 2026-11-10), recorded here once and used by every rebuild of the release; it builds upstream commit 51f4ac865b86, dated 2026-11-20T19:00:08Z (source.commit_epoch).",
+    "source_date_epoch_basis": "release-cut",
+    "commit_epoch": 1795201208
   },
   "binaries_from_source": [
     {

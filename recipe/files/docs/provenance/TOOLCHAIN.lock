@@ -1,5 +1,11 @@
 {
-  "apt_refresh": [],
+  "apt_refresh": [
+    {
+      "min_version": "5.38.2-3.2ubuntu0.7",
+      "package": "perl-base",
+      "reason": "USN-9006-1: perl-base 5.38.2-3.2ubuntu0.6 -> 5.38.2-3.2ubuntu0.7"
+    }
+  ],
   "binaries_from_component_images": [],
   "binaries_from_source": [
     {
@@ -11,17 +17,17 @@
     }
   ],
   "build_method": "source-rebuild-rust",
-  "chain_id": 726,
+  "chain_id": 1207,
   "dep_bumps": [],
   "expected_residuals": [],
   "images": [
     {
-      "digest": "sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852",
+      "digest": "sha256:9c7f200c07e3d4a03e7249d2c16bf66a51120fb876aa2242cf31451412543289",
       "ref": "ubuntu:24.04",
       "role": "builder"
     },
     {
-      "digest": "sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852",
+      "digest": "sha256:9c7f200c07e3d4a03e7249d2c16bf66a51120fb876aa2242cf31451412543289",
       "ref": "ubuntu:24.04",
       "role": "offline_builder"
     },
@@ -31,7 +37,7 @@
       "role": "rust_toolchain"
     },
     {
-      "digest": "sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852",
+      "digest": "sha256:9c7f200c07e3d4a03e7249d2c16bf66a51120fb876aa2242cf31451412543289",
       "ref": "ubuntu:24.04",
       "role": "base"
     }
@@ -53,20 +59,22 @@
     },
     "builder_image": "ubuntu:24.04",
     "cargo_features": [],
-    "commit": "cc9769917ab399ed5b48567a92b5d34ed4d918ea",
+    "commit": "51f4ac865b8670e0d3555ae992639ec05ecc334e",
+    "commit_epoch": 1795201208,
     "post_vendor_cmds": [
       "H=vendor/datafusion-udf-wasm-host/src/bindings.rs && grep -q 'path: \"../wit/world.wit\"' $H && R=$(sed -n 's|^source = \"git+https://github.com/influxdata/datafusion-udf-wasm.git?rev=[0-9a-f]*#\\([0-9a-f]\\{40\\}\\)\"$|\\1|p' Cargo.lock | sort -u) && test \"$(echo $R | wc -w)\" = 1 && W=$(echo ${CARGO_HOME:-/usr/local/cargo}/git/checkouts/datafusion-udf-wasm-*/$(echo $R | cut -c1-7)) && test \"$(git -C \"$W\" rev-parse HEAD)\" = \"$R\" && test -f \"$W/wit/world.wit\" && test ! -e vendor/wit && cp -R \"$W/wit\" vendor/wit && echo \"post_vendor: vendor/wit from datafusion-udf-wasm@$R\" && ls -l vendor/wit"
     ],
-    "ref": "v3.12.2",
+    "ref": "v3.12.3",
     "repo": "https://github.com/influxdata/influxdb",
     "rust_toolchain": "1.98.1",
     "rust_toolchain_image": "rust:1.98.1-bookworm",
     "rust_version_required": "1.98.1",
-    "source_date_epoch": 1793301155,
-    "source_date_epoch_provenance": "committer date of cc9769917ab399ed5b48567a92b5d34ed4d918ea, the commit tag v3.12.2 points to (2026-10-29T19:12:35Z). Resolved via the public GitHub API by scripts/retarget.py; annotated tags are dereferenced to their commit, never the tagger date.",
+    "source_date_epoch": 1795446682,
+    "source_date_epoch_basis": "release-cut",
+    "source_date_epoch_provenance": "the time release v3.12.3-CE-ubuntu24.04-r1 was cut (2026-11-23T15:11:22Z), by scripts/retarget.py: ReadyStack dates an image by when its release was packaged (owner 2026-11-10), recorded here once and used by every rebuild of the release; it builds upstream commit 51f4ac865b86, dated 2026-11-20T19:00:08Z (source.commit_epoch).",
     "source_prep": [
       "B=core/iox_query_udf/build.rs && D=target/cfg_independent_downloads/iox_query_udf && grep -q 'join(\"cfg_independent_downloads\")' $B && grep -q 'join(\"iox_query_udf\")' $B && C=$(sed -n 's/^const COMMIT: &str = \"\\([0-9a-f]\\{40\\}\\)\";$/\\1/p' $B) && T=$(sed -n 's/^const BUILD_TIMESTAMP: &str = \"\\(.*\\)\";$/\\1/p' $B | sed 's/+00:00$//; s/:/-/g') && S=$(sed -n 's/^ *\"sha256:\\([0-9a-f]\\{64\\}\\)\";$/\\1/p' $B) && test -n \"$C\" && test -n \"$T\" && test -n \"$S\" && U=\"https://github.com/influxdata/datafusion-udf-wasm/releases/download/wasm-binaries%2F$T%2F$C\" && F=datafusion_udf_wasm_python.release.x86_64-unknown-linux-gnu.elf && mkdir -p $D && curl -fsSL --retry 5 -o $D/sha256sum.txt \"$U/sha256sum.txt\" && echo \"$S  $D/sha256sum.txt\" | sha256sum -c - && curl -fsSL --retry 5 -o \"$D/$F\" \"$U/$F\" && (cd $D && grep \"  $F\\$\" sha256sum.txt | sha256sum -c -)"
     ]
   },
-  "version": "v3.12.2"
+  "version": "v3.12.3"
 }

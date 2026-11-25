@@ -2,8 +2,8 @@
   "schema": "kitforge.custody_inputs.v1",
   "slug": "influxdb",
   "repo": "https://github.com/influxdata/influxdb",
-  "ref": "v3.12.2",
-  "commit": "cc9769917ab399ed5b48567a92b5d34ed4d918ea",
+  "ref": "v3.12.3",
+  "commit": "51f4ac865b8670e0d3555ae992639ec05ecc334e",
   "edition": "CE",
   "ce_audit": {
     "ce_only": true,
