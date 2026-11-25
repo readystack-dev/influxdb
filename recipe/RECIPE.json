@@ -1,0 +1,277 @@
+{
+ "schema": "readystack.recipe.v1",
+ "slug": "influxdb",
+ "tag": "v3.12.2-CE-ubuntu24.04-r1",
+ "tarball": "ReadyStack-influxdb-v3.12.2-CE-ubuntu24.04-r1.tar.gz",
+ "tarball_sha256": "15f961ed27ff19924d3fee6b2ae01c27ebcfab62594439e11e3d70bb8be8a40d",
+ "kit_root": "v3.12.2-CE-ubuntu24.04-r1",
+ "generated_at": "2026-11-09T11:01:10Z",
+ "generator": "KitForge release/recipe_publish.py",
+ "dockerfile": "Dockerfile.offline.pinned",
+ "build_script": "BUILD_OFFLINE.sh",
+ "preview_lines": 24,
+ "pins": {
+  "upstream": {
+   "repo": "https://github.com/influxdata/influxdb",
+   "ref": "v3.12.2",
+   "commit": "cc9769917ab399ed5b48567a92b5d34ed4d918ea",
+   "url": "https://github.com/influxdata/influxdb/tree/cc9769917ab399ed5b48567a92b5d34ed4d918ea",
+   "from": "docs/provenance/BUILD_RECIPE.json"
+  },
+  "fetches": [
+   {
+    "kind": "git",
+    "url": "https://github.com/influxdata/influxdb",
+    "ref": "v3.12.2"
+   },
+   {
+    "kind": "http",
+    "url": "https://github.com/influxdata/datafusion-udf-wasm.git?rev=[0-9a-f]*#"
+   }
+  ],
+  "bases": [
+   {
+    "ref": "rust:1.98.1-bookworm@sha256:93ce27a88655056a51dbdd8f5f2d7ddc071c7b0070fb288a37b5a285fc83971e",
+    "image": "rust:1.98.1-bookworm",
+    "digest": "sha256:93ce27a88655056a51dbdd8f5f2d7ddc071c7b0070fb288a37b5a285fc83971e"
+   },
+   {
+    "ref": "ubuntu:24.04@sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852",
+    "image": "ubuntu:24.04",
+    "digest": "sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852"
+   }
+  ],
+  "toolchain": {
+   "buildkit": "moby/buildkit:v0.31.2",
+   "buildkit_image_digest": "sha256:e0e67ea9c4bb07bdef683e29f70f3b623d1eb9c82274a9ec04e6bb0511449fb0",
+   "builder_images": [
+    "ubuntu:24.04@sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852"
+   ]
+  },
+  "build_method": "source-rebuild-rust",
+  "source_date_epoch": 1793301155,
+  "source_date_epoch_utc": "2026-10-29T19:12:35Z",
+  "target": {
+   "image_manifest_digest": "sha256:968bcc53f2d97e304bacc2cf6cc16dec8a39bb6bc5509bc1fe75c56c4edf2ec0",
+   "config_digest": "sha256:ad1cec03327be90e08d6b51fa8ebea89a7f7b945c4bf8c9524e59f407c1d9288",
+   "image": "readystack/influxdb:v3.12.2-CE-ubuntu24.04-r1"
+  },
+  "checksummed_files": 42788
+ },
+ "files": [
+  {
+   "path": "BASES.tsv",
+   "size": 258,
+   "sha256": "99207fafebe9df8d52267dafdca0036c57632c7bb58b9ed9a8a6f1cc5d6a9d68",
+   "lines": 2,
+   "public": "full"
+  },
+  {
+   "path": "BUILD_OFFLINE.sh",
+   "size": 6756,
+   "sha256": "6633aa31b6b40dc4a75c83de0272269acbb86e82f3bcfa7fdd202d1642a6780a",
+   "lines": 125,
+   "public": "preview",
+   "preview_lines": 24
+  },
+  {
+   "path": "CHECKSUMS.sha256",
+   "size": 6021271,
+   "sha256": "ef25a006694134bbf75a504b2e4d26df72097d10745035cd0c8eb12b05829e58",
+   "lines": 42788,
+   "public": "account",
+   "stored": "gzip"
+  },
+  {
+   "path": "DOCKERFILE_NAME.txt",
+   "size": 26,
+   "sha256": "9aadd1ede68e016a6f163c97befc5ff2fcdc8ebd4f84b108dba63cb195fa8c84",
+   "lines": 1,
+   "public": "full"
+  },
+  {
+   "path": "Dockerfile",
+   "size": 5370,
+   "sha256": "9ebe31541adb577925d94f009246bbc7f9d0fa217b9782b1ed6673fb76456b6a",
+   "lines": 61,
+   "public": "account"
+  },
+  {
+   "path": "Dockerfile.offline",
+   "size": 5370,
+   "sha256": "9ebe31541adb577925d94f009246bbc7f9d0fa217b9782b1ed6673fb76456b6a",
+   "lines": 61,
+   "public": "account"
+  },
+  {
+   "path": "Dockerfile.offline.pinned",
+   "size": 5370,
+   "sha256": "9ebe31541adb577925d94f009246bbc7f9d0fa217b9782b1ed6673fb76456b6a",
+   "lines": 61,
+   "public": "preview",
+   "preview_lines": 24
+  },
+  {
+   "path": "Dockerfile.vendor",
+   "size": 3372,
+   "sha256": "84a2511b355dab5f3f00da66d34641ca877a79febbc158e3fba6001e450cb39b",
+   "lines": 27,
+   "public": "account"
+  },
+  {
+   "path": "MANIFEST.txt",
+   "size": 3111717,
+   "sha256": "25663520cfce3a1bc98721376c4c64c7487d1b07d14f2b73b4b41284b54d5994",
+   "lines": 42790,
+   "public": "account",
+   "stored": "gzip"
+  },
+  {
+   "path": "SOURCE_DATE_EPOCH.txt",
+   "size": 11,
+   "sha256": "24d89804258097335f05971b727883b61229549ac0e7d535ab49ff7cfef91bb3",
+   "lines": 1,
+   "public": "full"
+  },
+  {
+   "path": "TARGET_DIGEST.txt",
+   "size": 283,
+   "sha256": "039e2b3e2d81bb60cf8246fa19ed0b4293e45dec99dadd3d2a3070219a8f5bd2",
+   "lines": 6,
+   "public": "full"
+  },
+  {
+   "path": "VERIFY_OFFLINE.sh",
+   "size": 10153,
+   "sha256": "3e8184ea230cfd8f41f977e26be6bf7bd03112c396c517837ce0c7de4f7399dd",
+   "lines": 165,
+   "public": "account"
+  },
+  {
+   "path": "docs/PROVENANCE.md",
+   "size": 2904,
+   "sha256": "10e8f99870f489bf5e94e78b221e57f7d93266d44e266f896644a2f3ba8270dd",
+   "lines": 37,
+   "public": "account"
+  },
+  {
+   "path": "docs/REBUILD.md",
+   "size": 5109,
+   "sha256": "c6a0f35c045bca6e39302b0222d16ef4e4a9ce0d94d21237f3c7ce771454ae3f",
+   "lines": 57,
+   "public": "account"
+  },
+  {
+   "path": "docs/VERIFY.md",
+   "size": 1970,
+   "sha256": "4cc85fdacb41a0cb381dc30609af2b76a856eac2837e7356e14056f6f4910430",
+   "lines": 34,
+   "public": "account"
+  },
+  {
+   "path": "docs/provenance/BASE_IMAGE_DIGESTS.lock",
+   "size": 63,
+   "sha256": "61eff9483882ce1f7b000db2391ecaa02593c50ce4cd8e1aa123f185949e5f70",
+   "lines": 2,
+   "public": "full"
+  },
+  {
+   "path": "docs/provenance/BUILD_RECIPE.json",
+   "size": 10852,
+   "sha256": "4b28e3471388c7f43c0144bb9ebcff0a599cf6bf9f0761a5aed3451fdb8e6146",
+   "lines": 51,
+   "redactions": [
+    {
+     "line": 27,
+     "kind": "internal host"
+    }
+   ],
+   "kit_sha256": "b723ef606f18dc559949c48e2ae09a7b281d025ae93c40700ef04b9ac3346ddb",
+   "kit_size": 10832,
+   "public": "account"
+  },
+  {
+   "path": "docs/provenance/CUSTODY_INPUTS.json",
+   "size": 699,
+   "sha256": "c42d848db8ae9cc2a4d93c9efe7fc4563ebe4ac647bd03499e84295c055e5300",
+   "lines": 19,
+   "public": "account"
+  },
+  {
+   "path": "docs/provenance/SOURCE_FILE_MANIFEST.json",
+   "size": 135983,
+   "sha256": "9cec632acaa414059ad7fe55247c70eb3357e31a503130982c57e4d7fb709de6",
+   "lines": 1862,
+   "public": "account"
+  },
+  {
+   "path": "docs/provenance/SOURCE_TREE_HASH.json",
+   "size": 311,
+   "sha256": "24f1e82f3181b40b9365340f8b4461fda6e093dc354a4c994691f6ef8716ae6d",
+   "lines": 9,
+   "public": "full"
+  },
+  {
+   "path": "docs/provenance/SYSTEM_PINNING.lock",
+   "size": 40,
+   "sha256": "c5a38ea873639d1b63e971308dc62763716b9b919b5bd60f2c9cb80341b637ed",
+   "lines": 3,
+   "public": "account"
+  },
+  {
+   "path": "docs/provenance/TOOLCHAIN.lock",
+   "size": 3653,
+   "sha256": "853ae2251f8d7783dd787b6a81e649500d1382911f94c09612e330022bdf8110",
+   "lines": 72,
+   "public": "account"
+  },
+  {
+   "path": "readystack-admin-token",
+   "size": 215,
+   "sha256": "3d5dfc5dc6473e0d405897a6c495fa8b3b6e5927284730ae3a982cf517492ec2",
+   "lines": 4,
+   "public": "account"
+  },
+  {
+   "path": "readystack-entrypoint.sh",
+   "size": 1739,
+   "sha256": "19397714ed15b3da6dfd1f326c9a1758957f249d24842cbca2a5ebe734a818fe",
+   "lines": 35,
+   "public": "account"
+  },
+  {
+   "path": "rebuild.json",
+   "size": 1432,
+   "sha256": "958c615e6b0c72a461a3ef071b1ae275f3b5d685e9c9fd4b655bf3e30776f3d1",
+   "lines": 38,
+   "public": "account"
+  },
+  {
+   "path": "toolchain/BUILDKIT_TAG.txt",
+   "size": 22,
+   "sha256": "fcd530eeb02b063d2f047adad6eef896422a8e8d558513e5f09b2a262be32573",
+   "lines": 1,
+   "public": "full"
+  }
+ ],
+ "skipped": [],
+ "kit_adds": {
+  "bases": {
+   "files": 14,
+   "bytes": 592309882
+  },
+  "docs": {
+   "files": 1913,
+   "bytes": 30915736
+  },
+  "toolchain": {
+   "files": 1,
+   "bytes": 111529472
+  },
+  "vendored": {
+   "files": 40836,
+   "bytes": 1009300875
+  }
+ },
+ "redacted_files": 1
+}

@@ -1,0 +1,38 @@
+{
+  "bases": [
+    {
+      "digest": "sha256:c49256cbe5ea0188bc658a689500d70c41eb51f009a7a7be209caf60a944f3ec",
+      "layout": "bases/rust_1.98.1-bookworm_93ce27a88655.oci",
+      "ref": "rust:1.98.1-bookworm@sha256:93ce27a88655056a51dbdd8f5f2d7ddc071c7b0070fb288a37b5a285fc83971e"
+    },
+    {
+      "digest": "sha256:78d4744ead1f5b19b04d0df558ab182a5300903900755e515b2ca4d10eb2044d",
+      "layout": "bases/ubuntu_24.04_fe81560990fa.oci",
+      "ref": "ubuntu:24.04@sha256:fe81560990fae86dc4743202b2cb4d3df98d0bcf949173cecef15ce1127ef852"
+    }
+  ],
+  "engine": {
+    "archive": "toolchain/buildkit.tar",
+    "image_digest": "sha256:e0e67ea9c4bb07bdef683e29f70f3b623d1eb9c82274a9ec04e6bb0511449fb0",
+    "kind": "buildkit",
+    "tag": "moby/buildkit:v0.31.2"
+  },
+  "inputs": {
+    "context": ".",
+    "dockerfile": "Dockerfile.offline.pinned",
+    "mtime_policy": "clamp",
+    "source_date_epoch": 1793301155,
+    "tree_hash": "sha256:070f96eb327539c391ff3fa918878c8d1ebb989c3668bcf2f9df6b1c70935b05"
+  },
+  "probe": {
+    "http_path": "/health",
+    "port": 8181,
+    "timeout_s": 180
+  },
+  "schema": "readystack-rebuild-bundle/v0.1",
+  "subject": {
+    "config_digest": "sha256:ad1cec03327be90e08d6b51fa8ebea89a7f7b945c4bf8c9524e59f407c1d9288",
+    "image_manifest_digest": "sha256:968bcc53f2d97e304bacc2cf6cc16dec8a39bb6bc5509bc1fe75c56c4edf2ec0",
+    "name": "docker.io/readystack/influxdb:v3.12.2-CE-ubuntu24.04-r1"
+  }
+}

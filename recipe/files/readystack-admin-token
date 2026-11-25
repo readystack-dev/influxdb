@@ -1,0 +1,4 @@
+#!/bin/sh
+# Prints the operator (admin) token the ReadyStack entrypoint created on first start.
+f="${INFLUXDB3_ADMIN_TOKEN_FILE:-/var/lib/influxdb3/admin-token.json}"
+sed -n 's/^ *"token": *"\([^"]*\)".*/\1/p' "$f"

@@ -1,0 +1,19 @@
+{
+  "schema": "kitforge.custody_inputs.v1",
+  "slug": "influxdb",
+  "repo": "https://github.com/influxdata/influxdb",
+  "ref": "v3.12.2",
+  "commit": "cc9769917ab399ed5b48567a92b5d34ed4d918ea",
+  "edition": "CE",
+  "ce_audit": {
+    "ce_only": true,
+    "ee_dirs_found": [],
+    "ee_stripped": [],
+    "allowlisted_benign_paths": [
+      "influxdb3_catalog/src/enterprise"
+    ],
+    "method": "top-3-level dir scan, .git excluded, precise EE name match, strategy allowlist applied",
+    "note": "EE forks are separate products \u2014 never packaged. CE-only is pillar #1. allowlisted_benign_paths are OSS-repo artifacts named 'enterprise', NOT EE code.",
+    "rechecked_at": "package_archive"
+  }
+}

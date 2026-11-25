@@ -1,0 +1,9 @@
+{
+  "schema": "kitforge.source_tree_hash.v1",
+  "slug": "influxdb",
+  "repo": "https://github.com/influxdata/influxdb",
+  "ref": "v3.12.2",
+  "commit": "cc9769917ab399ed5b48567a92b5d34ed4d918ea",
+  "tree_listing_sha256": "5f6faf6b3ede125087079b9b9490a9745d0055ec385c9c14e9f74cc61364d6f7",
+  "file_count": 1855
+}
