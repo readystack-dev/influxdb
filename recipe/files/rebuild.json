@@ -21,8 +21,8 @@
     "context": ".",
     "dockerfile": "Dockerfile.offline.pinned",
     "mtime_policy": "clamp",
-    "source_date_epoch": 1795446682,
-    "tree_hash": "sha256:98c56f58f80d2ff4547adac7dd400d6abbd497665802bab01037114ca2edfa7f"
+    "source_date_epoch": 1795644307,
+    "tree_hash": "sha256:f3ac8510519dbb60add1fd08a687f57577b3be86f1a71339a7019484fa0349b9"
   },
   "probe": {
     "http_path": "/health",
@@ -31,8 +31,8 @@
   },
   "schema": "readystack-rebuild-bundle/v0.1",
   "subject": {
-    "config_digest": "sha256:f74d21f1bee86584b46cf603ec2ec23f2412884a5729bf83156401d6dde55869",
-    "image_manifest_digest": "sha256:b9060f068c5457c3ab547795bf3f6819405f8bece7c777924c7d02d97950018f",
-    "name": "docker.io/readystack/influxdb:v3.12.3-CE-ubuntu24.04-r1"
+    "config_digest": "sha256:9388efa73529f21b35b50809e30e27d6f3cc4b79a38828f813d0d3aa4b442215",
+    "image_manifest_digest": "sha256:094911cbf3589f6a804c6dad91c52bed1270b569b77e1fa0e700fcf93765f31d",
+    "name": "docker.io/readystack/influxdb:v3.12.3-CE-ubuntu24.04-r2"
   }
 }

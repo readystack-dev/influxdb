@@ -18,7 +18,7 @@ WORKDIR /src
 COPY vendored/influxdb-src/ .
 ENV CARGO_NET_OFFLINE=true CARGO_HOME=/usr/local/cargo RUSTUP_TOOLCHAIN=1.98.1 RUSTUP_HOME=/usr/local/rustup PATH=/usr/local/cargo/bin:${PATH}
 ENV GIT_HASH=51f4ac865b8670e0d3555ae992639ec05ecc334e GIT_HASH_SHORT=51f4ac8 RUSTFLAGS="--cfg tokio_unstable" PYO3_PYTHON=/usr/bin/python3.12
-ARG SOURCE_DATE_EPOCH=1795446682
+ARG SOURCE_DATE_EPOCH=1795644307
 ENV SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH}
 RUN cargo build --release --offline --locked --bin influxdb3 && \
     cp target/release/influxdb3 /influxdb3 && /influxdb3 --version
@@ -32,7 +32,7 @@ RUN --mount=type=bind,source=vendored/debs,target=/tmp/debs \
     { [ -z "$bad" ] || { echo "vendored debs not installed at their vendored version:$bad" >&2; false; }; } && \
     rm -rf /var/lib/apt/lists/* \
            /var/log/dpkg.log /var/log/alternatives.log /var/log/apt /var/cache/ldconfig/aux-cache /var/cache/fontconfig
-ARG SOURCE_DATE_EPOCH=1795446682
+ARG SOURCE_DATE_EPOCH=1795644307
 RUN groupadd -r -g 1500 influxdb3 && useradd -r -u 1500 -g influxdb3 -d /var/lib/influxdb3 -m influxdb3 && \
     mkdir -p /var/lib/influxdb3 /var/lib/influxdb3/data /var/lib/influxdb3/plugins && chown -R influxdb3:influxdb3 /var/lib/influxdb3 /var/lib/influxdb3/data /var/lib/influxdb3/plugins && \
     : "${SOURCE_DATE_EPOCH:?SOURCE_DATE_EPOCH must be set for a reproducible build}" && \
@@ -44,14 +44,18 @@ COPY readystack-admin-token /usr/local/bin/readystack-admin-token
 RUN chmod 755 /usr/bin/influxdb3; chown influxdb3:influxdb3 /usr/local/bin/readystack-entrypoint.sh; chown influxdb3:influxdb3 /usr/local/bin/readystack-admin-token; chmod 0755 /usr/local/bin/readystack-entrypoint.sh; chmod 0755 /usr/local/bin/readystack-admin-token; if ldd /usr/bin/influxdb3 | grep -F 'not found'; then exit 1; fi
 LABEL org.opencontainers.image.licenses="MIT OR Apache-2.0"
 LABEL org.opencontainers.image.title="InfluxDB"
-LABEL org.opencontainers.image.source="https://github.com/influxdata/influxdb"
+LABEL org.opencontainers.image.source="https://github.com/readystack-dev/influxdb"
 LABEL org.opencontainers.image.description="InfluxDB 3 Core 3.12.3 time-series database (MIT/Apache-2.0), compiled from source"
-LABEL org.opencontainers.image.version="v3.12.3-CE-ubuntu24.04-r1"
+LABEL org.opencontainers.image.version="v3.12.3-CE-ubuntu24.04-r2"
 LABEL org.opencontainers.image.vendor="ReadyStack.dev"
 LABEL readystack.product="influxdb"
 LABEL readystack.edition="CE"
 LABEL readystack.build_method="source-rebuild-rust"
 LABEL org.opencontainers.image.revision="51f4ac865b8670e0d3555ae992639ec05ecc334e"
+LABEL readystack.upstream.source="https://github.com/influxdata/influxdb"
+LABEL org.opencontainers.image.url="https://readystack.dev/products/influxdb"
+LABEL org.opencontainers.image.documentation="https://github.com/readystack-dev/influxdb#readme"
+LABEL org.opencontainers.image.authors="ReadyStack <contact@readystack.dev>"
 HEALTHCHECK --interval=5s --timeout=180s --start-period=30s \
   CMD bash -c 'exec 3<>/dev/tcp/127.0.0.1/8181 && printf "GET /health HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n\r\n" >&3 && head -n1 <&3 | grep -q " 200 "' || exit 1
 WORKDIR /var/lib/influxdb3

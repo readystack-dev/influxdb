@@ -1,6 +1,6 @@
-image_manifest_digest=sha256:b9060f068c5457c3ab547795bf3f6819405f8bece7c777924c7d02d97950018f
-config_digest=sha256:f74d21f1bee86584b46cf603ec2ec23f2412884a5729bf83156401d6dde55869
-tag=readystack/influxdb:v3.12.3-CE-ubuntu24.04-r1
+image_manifest_digest=sha256:094911cbf3589f6a804c6dad91c52bed1270b569b77e1fa0e700fcf93765f31d
+config_digest=sha256:9388efa73529f21b35b50809e30e27d6f3cc4b79a38828f813d0d3aa4b442215
+tag=readystack/influxdb:v3.12.3-CE-ubuntu24.04-r2
 probe_port=8181
 probe_path=/health
 probe_timeout=180
